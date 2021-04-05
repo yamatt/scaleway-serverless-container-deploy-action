@@ -19,7 +19,7 @@ jobs:
         run: docker tag alpine:latest $REGISTRY_URL/alpine:$GITHUB_RUN_NUMBER
       - name: Push image to registry
         run: docker push $REGISTRY_URL/alpine:$GITHUB_RUN_NUMBER
-      - uses: yamatt/scaleway-serverless-container-deploy-action
+      - uses: yamatt/scaleway-serverless-container-deploy-action@main
         with:
           container_id: aa251852-deb1-4ce7-98b5-9cf61ce79f59
           secret_key: ${{ secrets.SCALEWAY_SECRET_KEY }}
