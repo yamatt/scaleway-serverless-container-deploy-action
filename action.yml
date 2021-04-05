@@ -1,0 +1,48 @@
+name: Scaleway Serverless Container Deploy
+description: Allows you to deploy your Docker containers in to Scaleway Serverless beta.
+author: Matt Copperwaite
+inputs:
+  region:
+    description: |
+      Scaleway region ID.
+      Currently only fr-par supports Serverless but could also be nl-ams or pl-waw in future.
+    required: true
+    default: 'fr-par'
+  container_id:
+    description: |
+      The UUID of the container.
+      This Action does not create containers, only update existing ones. You therefore need a container to be created initially, and take the ID from that.
+      The ID can be found in the URL, or the API.
+    required: true
+  secret_key:
+    description: |
+      The secret API key used to access Scaleway.
+      This is generated from the Credentials page.
+      This key must be for the right Organization.
+      The key must have access to the Container Registry and theServerless
+      Note that Access Key is not used,
+    required: true
+  registry_image_url:
+    description: |
+      The URL for the registry, image, and version to use in the container.
+      i.e.: rg.fr-par.scw.cloud/example-registry/example-image:latest
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - name: Update container with new image version
+      uses: fjogeleit/http-request-action@master
+      with:
+        url: https://api.scaleway.com/functions/v1alpha2/regions/${{ inputs.region }}/containers/${{ inputs.container_id }}
+        method: 'PATCH'
+        customHeaders: '{"X-Auth-Token": "${{ inputs.secret_key }}" }'
+        data: >
+            {"redeploy": true, "registry_image": "${{ inputs.registry_image_url }}"}
+    - name: Redeploy container
+      uses: fjogeleit/http-request-action@master
+      with:
+        url: https://api.scaleway.com/functions/v1alpha2/regions/${{ inputs.region }}/containers/${{ inputs.container_id }}/deploy
+        method: 'POST'
+        customHeaders: '{"X-Auth-Token": "${{ inputs.secret_key }}" }'
+        data: >
+            {}

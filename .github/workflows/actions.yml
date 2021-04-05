@@ -1,0 +1,20 @@
+on: [push]
+
+jobs:
+  test_action:
+    runs-on: ubuntu-latest
+    name: Test Action
+    env:
+      REGISTRY_URL: rg.fr-par.scw.cloud/funcscwactiontestzy7bammn
+    steps:
+      - uses: actions/checkout@v2
+      - name: Login to Scaleway Container Registry
+        run: docker login $REGISTRY_URL --username nologin --password ${{ secrets.SCALEWAY_SECRET_KEY }}
+      - name: Get latest Alpine image for the lols
+        run: docker pull alpine:latest
+      - name: Correctly tag Alpine image
+        run: docker tag alpine:latest $REGISTRY_URL/alpine:$GITHUB_RUN_NUMBER
+      - name: Push image to registry
+        run: docker push $REGISTRY_URL/alpine:$GITHUB_RUN_NUMBER
+    # have a container
+    # run code
