@@ -9,18 +9,19 @@ jobs:
     name: Test Action
     env:
       REGISTRY_URL: rg.fr-par.scw.cloud/funcscwactiontestzy7bammn
+      IMAGE_NAME: nginx
     steps:
       - uses: actions/checkout@v2
       - name: Login to Scaleway Container Registry
         run: docker login $REGISTRY_URL --username nologin --password ${{ secrets.SCALEWAY_SECRET_KEY }}
-      - name: Get latest Alpine image for the lols
-        run: docker pull alpine:latest
-      - name: Correctly tag Alpine image
-        run: docker tag alpine:latest $REGISTRY_URL/alpine:$GITHUB_RUN_NUMBER
+      - name: Get latest Nginx image to run a web server
+        run: docker pull nginx:latest
+      - name: Correctly tag Nginx image
+        run: docker tag $IMAGE_NAME:latest $REGISTRY_URL/alpine:$GITHUB_RUN_NUMBER
       - name: Push image to registry
-        run: docker push $REGISTRY_URL/alpine:$GITHUB_RUN_NUMBER
+        run: docker push $REGISTRY_URL/$IMAGE_NAME:$GITHUB_RUN_NUMBER
       - uses: yamatt/scaleway-serverless-container-deploy-action@main
         with:
           container_id: aa251852-deb1-4ce7-98b5-9cf61ce79f59
           secret_key: ${{ secrets.SCALEWAY_SECRET_KEY }}
-          registry_image_url: $REGISTRY_URL/alpine:$GITHUB_RUN_NUMBER
+          registry_image_url: $REGISTRY_URL/$IMAGE_NAME:$GITHUB_RUN_NUMBER
