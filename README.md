@@ -7,7 +7,7 @@ In your workflow use this Action like so, filling in the arguments with your own
 
 ```yml
       - name: update container with new image version
-        uses: yamatt/scaleway-serverless-container-deploy-action
+        uses: yamatt/scaleway-serverless-container-deploy-action@main
         with:
           container_id: 762bd6f8-1551-4a9c-bd34-5fa11889677a
           secret_key: ${{ secrets.SCALEWAY_SECRET_KEY }}
