@@ -8,8 +8,10 @@ jobs:
     runs-on: ubuntu-latest
     name: Test Action
     env:
+      REGION: fr-par
       REGISTRY_URL: rg.fr-par.scw.cloud/funcscwactiontestzy7bammn
       IMAGE_NAME: nginx
+      CONTAINER_ID: aa251852-deb1-4ce7-98b5-9cf61ce79f59
     steps:
       - uses: actions/checkout@v2
       - name: Login to Scaleway Container Registry
@@ -22,7 +24,7 @@ jobs:
         run: docker push ${{ env.REGISTRY_URL }}/${{ env.IMAGE_NAME }}:${{ github.run_number }}
       - uses: yamatt/scaleway-serverless-container-deploy-action@main
         with:
-          container_id: aa251852-deb1-4ce7-98b5-9cf61ce79f59
+          container_id: ${{ env.CONTAINER_ID }}
           secret_key: ${{ secrets.SCALEWAY_SECRET_KEY }}
           registry_image_url: ${{ env.REGISTRY_URL }}/${{ env.IMAGE_NAME }}:${{ github.run_number }}
       - name: Check the image is using the latest version
@@ -31,7 +33,7 @@ jobs:
             curl \
               --request GET \
               --header "X-Auth-Token: ${{ secrets.SCALEWAY_SECRET_KEY }}" \
-              https://api.scaleway.com/functions/v1alpha2/regions/${{ inputs.region }}/containers/${{ inputs.container_id }} | \
+              https://api.scaleway.com/functions/v1alpha2/regions/${{ env.REGION }}/containers/${{ env.CONTAINER_ID }} | \
               jq -r .registry_image
             ) = ${{ env.REGISTRY_URL }}/${{ env.IMAGE_NAME }}:${{ github.run_number }}
           ]
