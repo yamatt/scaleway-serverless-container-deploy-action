@@ -31,18 +31,18 @@ runs:
   using: "composite"
   steps:
     - name: Update container with new image version
-      uses: fjogeleit/http-request-action@master
-      with:
-        url: https://api.scaleway.com/functions/v1alpha2/regions/${{ inputs.region }}/containers/${{ inputs.container_id }}
-        method: 'PATCH'
-        customHeaders: '{"X-Auth-Token": "${{ inputs.secret_key }}" }'
-        data: >
-            {"redeploy": true, "registry_image": "${{ inputs.registry_image_url }}"}
+      shell: bash
+      run: >
+        curl \
+          --request PATCH \
+          --header "X-Auth-Token:${{ inputs.secret_key }}" \
+          --data '{"redeploy": true, "registry_image": "${{ inputs.registry_image_url }}"}'
+          https://api.scaleway.com/functions/v1alpha2/regions/${{ inputs.region }}/containers/${{ inputs.container_id }}
     - name: Redeploy container
-      uses: fjogeleit/http-request-action@master
-      with:
-        url: https://api.scaleway.com/functions/v1alpha2/regions/${{ inputs.region }}/containers/${{ inputs.container_id }}/deploy
-        method: 'POST'
-        customHeaders: '{"X-Auth-Token": "${{ inputs.secret_key }}" }'
-        data: >
-            {}
+      shell: bash
+      run: >
+        curl \
+          --request POST \
+          --header "X-Auth-Token:${{ inputs.secret_key }}" \
+          --data '{}'
+          https://api.scaleway.com/functions/v1alpha2/regions/${{ inputs.region }}/containers/${{ inputs.container_id }}/deploy
