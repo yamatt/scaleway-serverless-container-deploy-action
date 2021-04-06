@@ -15,13 +15,14 @@ jobs:
       - name: Login to Scaleway Container Registry
         run: docker login $REGISTRY_URL --username nologin --password ${{ secrets.SCALEWAY_SECRET_KEY }}
       - name: Get latest Nginx image to run a web server
-        run: docker pull nginx:latest
+        run: docker pull ${{ env.IMAGE_NAME }}:latest
       - name: Correctly tag Nginx image
-        run: docker tag $IMAGE_NAME:latest $REGISTRY_URL/$IMAGE_NAME:$GITHUB_RUN_NUMBER
+        run: docker tag ${{ env.IMAGE_NAME }}:latest ${{ env.REGISTRY_URL }}/${{ env.IMAGE_NAME }}:${{ github.run_number }}
       - name: Push image to registry
-        run: docker push $REGISTRY_URL/$IMAGE_NAME:$GITHUB_RUN_NUMBER
+        run: docker push ${{ env.REGISTRY_URL }}/${{ env.IMAGE_NAME }}:${{ github.run_number }}
       - uses: yamatt/scaleway-serverless-container-deploy-action@main
         with:
           container_id: aa251852-deb1-4ce7-98b5-9cf61ce79f59
           secret_key: ${{ secrets.SCALEWAY_SECRET_KEY }}
-          registry_image_url: $REGISTRY_URL/$IMAGE_NAME:$GITHUB_RUN_NUMBER
+          registry_image_url: ${{ env.REGISTRY_URL }}/${{ env.IMAGE_NAME }}:${{ github.run_number }}
+      -
