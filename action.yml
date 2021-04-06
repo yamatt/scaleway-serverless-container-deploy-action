@@ -1,6 +1,9 @@
 name: Scaleway Serverless Container Deploy
 description: Allows you to deploy your Docker containers in to Scaleway Serverless beta.
 author: Matt Copperwaite
+branding:
+  icon: 'grid'
+  color: 'purple'
 inputs:
   region:
     description: |
