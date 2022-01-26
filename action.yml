@@ -30,6 +30,11 @@ inputs:
       The URL for the registry, image, and version to use in the container.
       i.e.: rg.fr-par.scw.cloud/example-registry/example-image:latest
     required: true
+  api_version:
+    description: |
+      The version of the API to compare against.
+    required: false
+    default: 'v1beta1'
 runs:
   using: "composite"
   steps:
@@ -40,7 +45,7 @@ runs:
           --request PATCH \
           --header "X-Auth-Token: ${{ inputs.secret_key }}" \
           --data '{"redeploy": true, "registry_image": "${{ inputs.registry_image_url }}"}' \
-          https://api.scaleway.com/functions/v1alpha2/regions/${{ inputs.region }}/containers/${{ inputs.container_id }}
+          https://api.scaleway.com/functions/${{ inputs.api_version }}/regions/${{ inputs.region }}/containers/${{ inputs.container_id }}
     - name: Redeploy container
       shell: bash
       run: >
@@ -48,4 +53,4 @@ runs:
           --request POST \
           --header "X-Auth-Token:${{ inputs.secret_key }}" \
           --data '{}' \
-          https://api.scaleway.com/functions/v1alpha2/regions/${{ inputs.region }}/containers/${{ inputs.container_id }}/deploy
+          https://api.scaleway.com/functions/${{ inputs.api_version }}/regions/${{ inputs.region }}/containers/${{ inputs.container_id }}/deploy
