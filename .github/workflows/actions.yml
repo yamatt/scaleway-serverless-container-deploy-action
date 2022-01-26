@@ -9,9 +9,9 @@ jobs:
     name: Test Action
     env:
       REGION: fr-par
-      REGISTRY_URL: rg.fr-par.scw.cloud/funcscwgithubactioncontaine2adoqmfd 
+      REGISTRY_URL: rg.fr-par.scw.cloud/funcscwgithubactioncontaine2adoqmfd
       IMAGE_NAME: nginx
-      CONTAINER_ID: aa251852-deb1-4ce7-98b5-9cf61ce79f59
+      CONTAINER_ID: c5e6419e-f892-451d-88eb-8712fb09c368
     steps:
       - uses: actions/checkout@v2
       - name: Login to Scaleway Container Registry
