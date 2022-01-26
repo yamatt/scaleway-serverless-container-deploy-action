@@ -9,7 +9,7 @@ jobs:
     name: Test Action
     env:
       REGION: fr-par
-      REGISTRY_URL: rg.fr-par.scw.cloud/funcscwactiontestzy7bammn
+      REGISTRY_URL: rg.fr-par.scw.cloud/funcscwgithubactioncontaine2adoqmfd 
       IMAGE_NAME: nginx
       CONTAINER_ID: aa251852-deb1-4ce7-98b5-9cf61ce79f59
     steps:
