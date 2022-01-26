@@ -33,7 +33,7 @@ jobs:
             curl \
               --request GET \
               --header "X-Auth-Token: ${{ secrets.SCALEWAY_SECRET_KEY }}" \
-              https://api.scaleway.com/functions/v1alpha2/regions/${{ env.REGION }}/containers/${{ env.CONTAINER_ID }} | \
+              https://api.scaleway.com/functions/v1beta1/regions/${{ env.REGION }}/containers/${{ env.CONTAINER_ID }} | \
               jq -r .registry_image \
             ) = ${{ env.REGISTRY_URL }}/${{ env.IMAGE_NAME }}:${{ github.run_number }} \
           ]
