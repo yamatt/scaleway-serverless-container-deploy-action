@@ -3,6 +3,7 @@
 Scaleway have a Serverless service in public beta. This GitHub Action uses the Scaleway API to deploy your images in the Scaleway Container Registry in to a Serverless Container.
 
 ## Usage
+
 In your workflow use this Action like so, filling in the arguments with your own values.
 
 ```yml
