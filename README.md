@@ -1,6 +1,6 @@
 # Scaleway Serverless Container Deploy
 
-Scaleway have a Serverless service in public beta. This GitHub Action uses the Scaleway API to deploy your images in the Scaleway Container Registry in to a Serverless Container.
+Scaleway have a Serverless service. This GitHub Action uses the Scaleway API to deploy your images in the Scaleway Container Registry in to a Serverless Container.
 
 ## Usage
 
