@@ -16,7 +16,7 @@ jobs:
       IMAGE_NAME: nginx
       CONTAINER_ID: ${{ secrets.CONTAINER_ID }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v6.0.2
       - name: Login to Scaleway Container Registry
         run: docker login $REGISTRY_URL --username nologin --password ${{ secrets.SCALEWAY_SECRET_KEY }}
       - name: Get latest Nginx image to run a web server
